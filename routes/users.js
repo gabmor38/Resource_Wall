@@ -6,7 +6,7 @@
  */
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -21,5 +21,25 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
+  // register a new user. Create new user resource.
+  router.post('/', (req, res) => {
+    const user = req.body;
+    console.log(`email: ${user.email}`);
+    console.log(`password: ${user.password}`);
+    return db.query(`
+      INSERT INTO users ( email, password)
+      VALUES ($1, $2)
+      RETURNING *;
+    `, [user.email, user.password])
+      .then((results) => {
+        console.log("Added new user.");
+        res.status(200).send();
+      })
+      .catch((err) => {
+        throw err;
+      })
+  });
+
   return router;
 };
