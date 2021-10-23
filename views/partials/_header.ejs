@@ -1,0 +1,27 @@
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark bg-success">
+    <a class="navbar-brand" href="/">ResourceWall</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    
+      <div class="navbar-nav ">
+        <% if(locals.user){ %>
+          <form action="/logout" method="POST">
+            <div class="text">Logged In As: <%=user.email%>
+                <button type="submit" class="btn btn-primary">Logout</button>
+          </form>
+          <% } else{ %>
+            <form action="/login" method="GET">
+              <button>Login</button>
+            </form>
+            <form method="GET" action="/register">
+              <button>Register</button>
+            </form>
+            <% } %>
+      </div>
+    </div>
+  </nav>
+</header>
