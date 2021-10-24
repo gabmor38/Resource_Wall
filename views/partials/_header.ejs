@@ -1,13 +1,13 @@
 <header>
-  <nav class="navbar navbar-expand-md navbar-dark bg-success">
-    <a class="navbar-brand" href="/">Resource Wall</a>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand ms-4" href="/">Resource Wall</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
       aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="collapse navbar-collapse d-flex justify-content-end mx-2" id="navbarNavAltMarkup">
 
-      <div class="navbar-nav ">
+      <div class="navbar-nav"></div>
         <% if(locals.user){ %>
           <form action="/logout" method="POST">
             <div class="text">Logged In As: <%=user.email%>
@@ -15,10 +15,10 @@
           </form>
           <% } else{ %>
             <form action="/login" method="GET">
-              <button>Login</button>
+              <button type="button" class="btn btn-light mx-2">Login</button>
             </form>
             <form method="GET" action="/register">
-              <button>Register</button>
+              <button type="button" class="btn btn-light">Register</button>
             </form>
             <% } %>
       </div>
