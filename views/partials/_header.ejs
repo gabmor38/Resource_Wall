@@ -13,12 +13,16 @@
             <div class="text">Logged In As: <%=user.email%>
                 <button type="submit" class="btn btn-primary">Logout</button>
           </form>
+          <form action="/search" method="POST">
+            <div class="text">search: <%=user.categories%>
+                <button type="submit" class="btn btn-primary">Search</button>
+          </form>
           <% } else{ %>
             <form action="/login" method="GET">
               <button type="button" class="btn btn-light mx-2">Login</button>
             </form>
             <form method="GET" action="/register">
-              <button type="button" class="btn btn-light">Register</button>
+              <button type="button" class="btn btn-light"> <a href="/register">Register</button></a>
             </form>
             <% } %>
       </div>
