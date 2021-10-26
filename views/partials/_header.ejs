@@ -13,8 +13,12 @@
             <div class="text">Logged In As: <%=user.email%>
                 <button type="submit" class="btn btn-primary">Logout</button>
           </form>
+          <form action="/myResources" method="GET">
+            <div class="text">search: <%=user.resources%>
+                <button type="submit" class="btn btn-primary">My Resources</button>
+          </form>
           <form action="/search" method="POST">
-            <div class="text">search: <%=user.categories%>
+            <div class="text">search: <%=user.resources%>
                 <button type="submit" class="btn btn-primary">Search</button>
           </form>
           <% } else{ %>
@@ -22,7 +26,7 @@
               <button type="button" class="btn btn-light mx-2">Login</button>
             </form>
             <form method="GET" action="/register">
-              <button type="button" class="btn btn-light"> <a href="/register">Register</button></a>
+              <button type="button" class="btn btn-light"> <a href="/api/register">Register</button></a>
             </form>
             <% } %>
       </div>
