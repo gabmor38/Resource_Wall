@@ -24,8 +24,9 @@ module.exports = (db) => {
       });
   });
 
-  // register a new user. Create new user resource.
+  // // register a new user. Create new user resource.
   router.post('/', (req, res) => {
+<<<<<<< HEAD
     //Create the session with the hardcoded value
     req.session.user_id = 1;
     res.redirect('/login');
@@ -46,25 +47,44 @@ module.exports = (db) => {
     //   .catch((err) => {
     //     throw err;
     //   })
+=======
+    const user = req.body;
+    console.log(`email: ${user.email}`);
+    console.log(`password: ${user.password}`);
+    return db.query(`
+      INSERT INTO users ( email, password)
+      VALUES ($1, $2)
+      RETURNING *;
+    `, [user.email, bcrypt.hashSync(user.password, 12)])
+      .then((results) => {
+        console.log("Added new user.");
+        res.redirect('/api/users/login');
+      })
+      .catch((err) => {
+        throw err;
+      })
+
+>>>>>>> 28d4f49ba5a1c0ddd4811fffc39d2b1a5bdbfcb1
   });
 
   // login
   router.get('/login', (req, res) => {
+
     const user_id = req.session.user_id;
+<<<<<<< HEAD
     // send user_id in template vars
     res.render('/login');
+=======
+    const templateVars = { error: null, user_id: user_id };
+    res.render("login", templateVars);
+>>>>>>> 28d4f49ba5a1c0ddd4811fffc39d2b1a5bdbfcb1
   });
 
-  /**
-   * Check if a user exists with a given username and password
-   * @param {String} email
-   * @param {String} password encrypted
-   */
   const login = function (email, password) {
     return db.query(`
-      SELECT *
-      FROM users
-      WHERE email= $1`
+  SELECT *
+  FROM users
+  WHERE email= $1`
       , [`${email.toLowerCase()}`])
       .then(result => result.rows[0])
       .catch(err => console.log(err))
@@ -87,17 +107,26 @@ module.exports = (db) => {
           res.send({ error: "error" });
           return;
         }
-        req.session.userId = user.id;
-        console.log(`User session is ${req.session.userId}`);
-        res.send({ user: { email: user.email, id: user.id } });
+        const user_id = user.email;
+        req.session.user_id = user_id;
+        console.log(`User session is ${req.session.user_id}`);
+        // res.send({ user: { email: user.email, id: user.id } });
+        const templateVars = { error: null, user_id: user_id };
+        res.render("index", templateVars);
       })
       .catch(e => res.send(e));
   });
 
+<<<<<<< HEAD
 
   router.post('/logout', (req, res) => {
     req.session.userId = null;
     res.send({});
+=======
+  router.post("/logout", (req, res) => {
+    req.session = null;
+    res.redirect('/');
+>>>>>>> 28d4f49ba5a1c0ddd4811fffc39d2b1a5bdbfcb1
   });
 
   router.get('/register', (req, res) => {
