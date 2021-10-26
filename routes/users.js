@@ -52,7 +52,7 @@ module.exports = (db) => {
   router.get('/login', (req, res) => {
     const user_id = req.session.user_id;
     // send user_id in template vars
-    res.render('login');
+    res.render('/login');
   });
 
   /**
@@ -80,6 +80,7 @@ module.exports = (db) => {
 
   router.post('/login', (req, res) => {
     const { email, password } = req.body;
+    console.log("POST login",req.body);
     login(email, password)
       .then(user => {
         if (!user) {
@@ -92,6 +93,7 @@ module.exports = (db) => {
       })
       .catch(e => res.send(e));
   });
+
 
   router.post('/logout', (req, res) => {
     req.session.userId = null;

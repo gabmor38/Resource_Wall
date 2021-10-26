@@ -9,7 +9,7 @@
 
       <div class="navbar-nav"></div>
         <% if(locals.user){ %>
-          <form action="/logout" method="POST">
+          <form action="/login" method="POST">
             <div class="text">Logged In As: <%=users.email%>
                 <button type="submit" class="btn btn-primary">Logout</button>
           </form>
