@@ -26,29 +26,33 @@ module.exports = (db) => {
 
   // register a new user. Create new user resource.
   router.post('/', (req, res) => {
-    const user = req.body;
-    console.log(`email: ${user.email}`);
-    console.log(`password: ${user.password}`);
-    return db.query(`
-      INSERT INTO users ( email, password)
-      VALUES ($1, $2)
-      RETURNING *;
-    `, [user.email, bcrypt.hashSync(user.password, 12)])
-      .then((results) => {
-        console.log("Added new user.", results);
-        res.status(200).send();
-      })
-      .catch((err) => {
-        throw err;
-      })
+    //Create the session with the hardcoded value
+    req.session.user_id = 1;
+    res.redirect('/login');
+    //res.redirect("/api/resources/1");
+
+    // const user = req.body;
+    // console.log(`email: ${user.email}`);
+    // console.log(`password: ${user.password}`);
+    // return db.query(`
+    //   INSERT INTO users ( email, password)
+    //   VALUES ($1, $2)
+    //   RETURNING *;
+    // `, [user.email, bcrypt.hashSync(user.password, 12)])
+    //   .then((results) => {
+    //     console.log("Added new user.", results);
+    //     res.status(200).send();
+    //   })
+    //   .catch((err) => {
+    //     throw err;
+    //   })
   });
 
   // login
   router.get('/login', (req, res) => {
     const user_id = req.session.user_id;
     // send user_id in template vars
-    res.redirect('/resources');
-    //res.render('login');
+    res.render('login');
   });
 
   /**

@@ -10,10 +10,10 @@
       <div class="navbar-nav"></div>
         <% if(locals.user){ %>
           <form action="/logout" method="POST">
-            <div class="text">Logged In As: <%=user.email%>
+            <div class="text">Logged In As: <%=users.email%>
                 <button type="submit" class="btn btn-primary">Logout</button>
           </form>
-          <form action="/myResources" method="GET">
+          <form action="/api/users/resources" method="GET">
             <div class="text">search: <%=user.resources%>
                 <button type="submit" class="btn btn-primary">My Resources</button>
           </form>
@@ -22,11 +22,11 @@
                 <button type="submit" class="btn btn-primary">Search</button>
           </form>
           <% } else{ %>
-            <form action="/login" method="GET">
-              <button type="button" class="btn btn-light mx-2">Login</button>
+            <form action="/api/users" method="GET">
+              <button type="submit" class="btn btn-light mx-2">Login</button>
             </form>
-            <form method="GET" action="/register">
-              <button type="button" class="btn btn-light"> <a href="/api/register">Register</button></a>
+            <form method="GET" action="/api/users/register">
+              <button type="submit" class="btn btn-light">Register</button>
             </form>
             <% } %>
       </div>
