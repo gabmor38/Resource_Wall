@@ -14,6 +14,7 @@ module.exports = (db) => {
     db.query(`SELECT * FROM users;`)
       .then(data => {
         const users = data.rows;
+        console.log(users);
         res.json({ users });
       })
       .catch(err => {
@@ -34,7 +35,7 @@ module.exports = (db) => {
       RETURNING *;
     `, [user.email, bcrypt.hashSync(user.password, 12)])
       .then((results) => {
-        console.log("Added new user.");
+        console.log("Added new user.", results);
         res.status(200).send();
       })
       .catch((err) => {
@@ -46,7 +47,8 @@ module.exports = (db) => {
   router.get('/login', (req, res) => {
     const user_id = req.session.user_id;
     // send user_id in template vars
-    res.render('login');
+    res.redirect('/resources');
+    //res.render('login');
   });
 
   /**
