@@ -7,25 +7,30 @@
     </button>
     <div class="collapse navbar-collapse d-flex justify-content-end mx-2" id="navbarNavAltMarkup">
 
-      <div class="navbar-nav"></div>
-        <% if(locals.user){ %>
-          <form action="/logout" method="POST">
-            <div class="text">Logged In As: <%=user.email%>
+      <div class="navbar-nav">
+        <% if(locals.user_id){ %>
+          <form action="/api/users/logout" method="POST">
+            <div class="text" style="color: antiquewhite;">Logged In As: <%=user_id%>
                 <button type="submit" class="btn btn-primary">Logout</button>
+
           </form>
-          <form action="/search" method="POST">
-            <div class="text">search: <%=user.categories%>
-                <button type="submit" class="btn btn-primary">Search</button>
-          </form>
+          <!-- <form action="/search" method="POST">
+            <div class="text">search:
+              <button type="submit" class="btn btn-primary">Search</button>
+          </form> -->
           <% } else{ %>
             <form action="/login" method="GET">
-              <button type="button" class="btn btn-light mx-2">Login</button>
+              <button type="button" class="btn btn-light mx-2"> <a href="/api/users/login">Login</button></a>
             </form>
             <form method="GET" action="/register">
-              <button type="button" class="btn btn-light"> <a href="/register">Register</button></a>
+              <button type="button" class="btn btn-light mx-2"> <a href="/api/users/register">Register</button></a>
             </form>
+
             <% } %>
       </div>
     </div>
+
+
+
   </nav>
 </header>

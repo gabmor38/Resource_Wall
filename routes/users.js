@@ -23,7 +23,7 @@ module.exports = (db) => {
       });
   });
 
-  // register a new user. Create new user resource.
+  // // register a new user. Create new user resource.
   router.post('/', (req, res) => {
     const user = req.body;
     console.log(`email: ${user.email}`);
@@ -35,30 +35,27 @@ module.exports = (db) => {
     `, [user.email, bcrypt.hashSync(user.password, 12)])
       .then((results) => {
         console.log("Added new user.");
-        res.status(200).send();
+        res.redirect('/api/users/login');
       })
       .catch((err) => {
         throw err;
       })
+
   });
 
   // login
   router.get('/login', (req, res) => {
+
     const user_id = req.session.user_id;
-    // send user_id in template vars
-    res.render('login');
+    const templateVars = { error: null, user_id: user_id };
+    res.render("login", templateVars);
   });
 
-  /**
-   * Check if a user exists with a given username and password
-   * @param {String} email
-   * @param {String} password encrypted
-   */
   const login = function (email, password) {
     return db.query(`
-      SELECT *
-      FROM users
-      WHERE email= $1`
+  SELECT *
+  FROM users
+  WHERE email= $1`
       , [`${email.toLowerCase()}`])
       .then(result => result.rows[0])
       .catch(err => console.log(err))
@@ -80,16 +77,19 @@ module.exports = (db) => {
           res.send({ error: "error" });
           return;
         }
-        req.session.userId = user.id;
-        console.log(`User session is ${req.session.userId}`);
-        res.send({ user: { email: user.email, id: user.id } });
+        const user_id = user.email;
+        req.session.user_id = user_id;
+        console.log(`User session is ${req.session.user_id}`);
+        // res.send({ user: { email: user.email, id: user.id } });
+        const templateVars = { error: null, user_id: user_id };
+        res.render("index", templateVars);
       })
       .catch(e => res.send(e));
   });
 
-  router.post('/logout', (req, res) => {
-    req.session.userId = null;
-    res.send({});
+  router.post("/logout", (req, res) => {
+    req.session = null;
+    res.redirect('/');
   });
 
   router.get('/register', (req, res) => {
