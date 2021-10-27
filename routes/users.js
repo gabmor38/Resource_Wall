@@ -37,30 +37,34 @@ module.exports = (db) => {
       .then((results) => {
         console.log("Added new user.");
         login(user.email, user.password)
-        .then(user => {
-         console.log(user)
+          .then(user => {
+            console.log(user)
 
-          if (!user) {
-            res.send({ error: "error" });
-            return;
-          }
-        const user_id = user.id;
-        req.session.user_id = user_id;
-        res.redirect('/api/resources/');
-      })
-      .catch((err) => {
-        throw err;
-      })
+            if (!user) {
+              res.send({ error: "error" });
+              return;
+            }
+            const user_id = user.id;
+            req.session.user_id = user_id;
+            res.redirect('/api/resources/');
+          })
+          .catch((err) => {
+            throw err;
+          })
 
-    });
+      });
   });
 
   // login
   router.get('/login', (req, res) => {
 
-    const user = req.session.user_id;
-    const templateVars = { error: null, user };
-    res.render("login", templateVars);
+    if (!req.session.user_id) {
+      const user = req.session.user_id;
+      const templateVars = { error: null, user };
+      res.render("login", templateVars);
+    } else {
+      res.redirect('/api/resources');
+    }
   });
 
   const login = function (email, password) {
@@ -82,10 +86,10 @@ module.exports = (db) => {
 
   router.post('/login', (req, res) => {
     const { email, password } = req.body;
-    console.log("POST login",req.body);
+    console.log("POST login", req.body);
     login(email, password)
       .then(user => {
-       console.log(user)
+        console.log(user)
 
         if (!user) {
           res.send({ error: "error" });
@@ -95,7 +99,7 @@ module.exports = (db) => {
         req.session.user_id = user_id;
         console.log(`User session is ${req.session.user_id}`);
         // res.send({ user: { email: user.email, id: user.id } });
-        const templateVars = {  error: null, user_id: user_id };
+        const templateVars = { error: null, user_id: user_id };
         res.redirect("/api/resources/");
       })
       .catch(console.log("error"));
@@ -108,11 +112,11 @@ module.exports = (db) => {
 
   router.get('/register', (req, res) => {
 
-    templateVars={
-      user:null
+    templateVars = {
+      user: null
     }
-    res.render('register',templateVars);
+    res.render('register', templateVars);
   });
 
   return router;
- };
+};

@@ -42,7 +42,7 @@ app.use(express.static("public"));
 // Note: Feel free to replace the example routes below with your own
 const usersRoutes = require("./routes/users");
 const widgetsRoutes = require("./routes/widgets");
-const resourceRoutes=require("./routes/resources")
+const resourceRoutes = require("./routes/resources")
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -56,14 +56,7 @@ app.use("/api/resources", resourceRoutes(db))
 // Separate them into separate routes files (see above).
 
 app.get("/", (req, res) => {
-  if(!req.session.user_id){
-    req.session.user_id=null;
-  }
-  console.log(req.session.user_id)
-  const templateVars = {
-    user : req.session.user_id
-  };
-  res.render("index",templateVars);
+  res.redirect('/api/users/login');
 });
 
 app.listen(PORT, () => {
