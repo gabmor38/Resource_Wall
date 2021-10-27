@@ -70,6 +70,33 @@ module.exports = (db) => {
     }
   });
 
+  //this function will be called by homepage when user is logged in. Query the database for stuff user liked/favourited and send to this function
+
+const cardBuilder=function(resources){
+  let resourceCards=[]
+  for (resource in resources){
+
+    let resourceCard=`
+  <div class="card-deck">
+            <div class="card">
+              <div >
+               <i class="fa fa-heart"></i>
+               <p> number of likes</p>
+              </div>
+              <img src="/images/${resource.category}.jpeg" class="card-img-top" alt="${resource.category}">
+              <div class="card-body">
+                <h5 class="card-title">${resource.title }</h5>
+                <p class="card-text">${resource.description}</p>
+              </div>
+            </div>
+          </div>
+    `
+    resourceCards.push(resourceCard)
+    }
+    return resourceCards
+  }
+
+
   // This api returns the resources to be shown on resource wall for a user
   // which contains all resources which are either created by this user or any resourse liked by anyone.
   router.get("/", (req, res) => {
@@ -80,13 +107,13 @@ module.exports = (db) => {
         text: `select resources.id, resources.title, resources.url, ROUND(AVG(reviews.rating), 1) AS rating
         from resources
         join reviews on reviews.resource_id = resources.id
-        where resources.user_id = $1 OR number_of_likes > 0
+        where resources.user_id = $1 
         group by resources.id, resources.title, resources.url, reviews.resource_id`,
         values: [userId]
       };
       db.query(query)
         .then(result => {
-
+          console.log(result.rows)
           const resources = result.rows;
           res.json({ resources });
 

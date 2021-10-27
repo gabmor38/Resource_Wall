@@ -56,7 +56,7 @@ module.exports = (db) => {
   SELECT *
   FROM users
   WHERE email= $1`
-      , [`${email.toLowerCase()}`])
+      , [`${email}`])
       .then(result => result.rows[0])
       .catch(err => console.log(err))
       .then(user => {
@@ -73,6 +73,8 @@ module.exports = (db) => {
     const { email, password } = req.body;
     login(email, password)
       .then(user => {
+       console.log(user)
+
         if (!user) {
           res.send({ error: "error" });
           return;
