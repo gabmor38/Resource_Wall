@@ -8,10 +8,10 @@
     <div class="collapse navbar-collapse d-flex justify-content-end mx-2" id="navbarNavAltMarkup">
 
       <div class="navbar-nav">
-        <% if(locals.user_id){ %>
+        <% if(user){ %>
           <div class="d-flex">
           <form action="/api/users/logout" method="POST">
-            <div class="text" style="color: antiquewhite;">Logged In As: <%=user_id%>
+            <div class="text" style="color: antiquewhite;">Logged In As: <%=user%>
                 <button type="submit" class="btn btn-primary mr-3">Logout</button>
           </form>
         </div>

@@ -47,8 +47,8 @@ module.exports = (db) => {
   // login
   router.get('/login', (req, res) => {
 
-    const user_id = req.session.user_id;
-    const templateVars = { error: null, user_id: user_id };
+    const user = req.session.user_id;
+    const templateVars = { error: null, user };
     res.render("login", templateVars);
   });
 
@@ -80,7 +80,7 @@ module.exports = (db) => {
           res.send({ error: "error" });
           return;
         }
-        const user_id = user.email;
+        const user_id = user.id;
         req.session.user_id = user_id;
         console.log(`User session is ${req.session.user_id}`);
         // res.send({ user: { email: user.email, id: user.id } });

@@ -56,7 +56,14 @@ app.use("/api/resources", resourceRoutes(db))
 // Separate them into separate routes files (see above).
 
 app.get("/", (req, res) => {
-  res.render("index");
+  if(!req.session.user_id){
+    req.session.user_id=null;
+  }
+  console.log(req.session.user_id)
+  const templateVars = {
+    user : req.session.user_id
+  };
+  res.render("index",templateVars);
 });
 
 app.listen(PORT, () => {
