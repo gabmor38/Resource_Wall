@@ -103,16 +103,19 @@ const cardBuilder=function(resources){
     console.log("getting resources")
     if (req.session.user_id) {
       const userId = req.session.user_id;
+      console.log("user")
       console.log(`userId: ${userId}`);
       const query = `SELECT resources.id, resources.category, resources.title, resources.url, users.email, ROUND(AVG(reviews.rating), 1) AS rating
-        FROM resources
-        JOIN reviews ON reviews.resource_id = resources.id
-        JOIN users ON users.id=reviews.user_id
-        WHERE resources.user_id = $1
-        GROUP BY resources.id, users.id, resources.title, resources.url, reviews.resource_id;`
+        FROM  users
+        LEFT JOIN resources ON users.id = resources.user_id
+        LEFT JOIN reviews ON users.id = reviews.user_id
+        WHERE users.id = $1
+        GROUP BY resources.id, users.email, resources.title, resources.url, reviews.resource_id;`
         const values= [userId];
+        console.log("query")
       db.query(query,values)
         .then(result => {
+          console.log("rows")
           console.log("rows", result.rows)
 
           const templateVars = {

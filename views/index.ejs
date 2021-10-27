@@ -30,7 +30,12 @@
     <div class="background">
       <div class="container pt-4">
         <div class="row row-cols-1 row-cols-md-3">
+
           <% if(user) {%>
+            <% if(!resources[0].id) {%>
+              <h1>Get started by liking or adding some resources!</h1>
+              <% } else { %>
+
             <% for(let resource in resources) { %>
           <div class="card-deck">
             <div class="card">
@@ -44,6 +49,7 @@
             </div>
           </div>
             <% } %>
+          <% } %>
           <% } else {%>
             <h1>Get started by creating an account or logging in!</h1>
             <% } %>
