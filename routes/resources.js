@@ -72,11 +72,11 @@ module.exports = (db) => {
 
   //this function will be called by homepage when user is logged in. Query the database for stuff user liked/favourited and send to this function
 
-const cardBuilder=function(resources){
-  let resourceCards=[]
-  for (resource in resources){
+  const cardBuilder = function (resources) {
+    let resourceCards = []
+    for (resource in resources) {
 
-    let resourceCard=`
+      let resourceCard = `
   <div class="card-deck">
             <div class="card">
               <div >
@@ -85,13 +85,13 @@ const cardBuilder=function(resources){
               </div>
               <img src="/images/${resource.category}.jpeg" class="card-img-top" alt="${resource.category}">
               <div class="card-body">
-                <h5 class="card-title">${resource.title }</h5>
+                <h5 class="card-title">${resource.title}</h5>
                 <p class="card-text">${resource.description}</p>
               </div>
             </div>
           </div>
     `
-    resourceCards.push(resourceCard)
+      resourceCards.push(resourceCard)
     }
     return resourceCards
   }
@@ -108,19 +108,19 @@ const cardBuilder=function(resources){
       const query = `SELECT resources.id, resources.category, resources.title, resources.url, users.email, ROUND(AVG(reviews.rating), 1) AS rating
         FROM  users
         LEFT JOIN resources ON users.id = resources.user_id
-        LEFT JOIN reviews ON users.id = reviews.user_id
+        LEFT JOIN reviews ON resources.id = reviews.resource_id
         WHERE users.id = $1
         GROUP BY resources.id, users.email, resources.title, resources.url, reviews.resource_id;`
-        const values= [userId];
-        console.log("query")
-      db.query(query,values)
+      const values = [userId];
+      console.log("query")
+      db.query(query, values)
         .then(result => {
           console.log("rows")
           console.log("rows", result.rows)
 
           const templateVars = {
             resources: result.rows,
-            user : result.rows[0].email
+            user: result.rows[0].email
           };
           console.log(templateVars);
           res.render("index", templateVars);
