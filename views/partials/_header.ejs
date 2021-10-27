@@ -20,14 +20,13 @@
           <!-- <div class="text d-flex">search:</div> -->
             <button type="submit" class="btn btn-primary mx-2">My Resources</button>
         </form>
-          <form action="/api/resources" method="POST">
+          <form action="/api/resources" method="GET">
             <!-- <div class="text d-flex">search:</div> -->
               <button type="submit" class="btn btn-primary mx-2">Search</button>
           </form>
-          <form action="/api/resources" method="POST">
-            <!-- <div class="text d-flex">search:</div> -->
-              <button type="submit" class="btn btn-primary mx-2">Add Resource</button>
-          </form>
+          <!-- <form action="/api/new_resource/new" method="GET"> -->
+              <a href="/api/new_resource/new"><button type="submit" class="btn btn-primary mx-2">Add Resource</button></a>
+          <!-- </form> -->
 
           <% } else { %>
             <form action="/login" method="GET">

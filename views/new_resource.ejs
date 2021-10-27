@@ -20,9 +20,9 @@
   <%- include('./partials/_header.ejs') %>
 
     <div class="container pt-4">
-      <form>
+      <form action="/api/new_resource/new" method="POST">
         <div class="form-group">
-          <label for="resource.title">Resource Title</label>
+          <label for="title">Resource Title</label>
           <input type="text" class="form-control" id="resource.title" placeholder="Resource Title">
         </div>
         <div class="form-group">
@@ -41,6 +41,7 @@
             <option>Technology</option>
           </select>
         </div>
+        <button type="submit" class="btn btn-primary mt-2">Create</button>
       </form>
     </div>
 </body>
