@@ -58,10 +58,9 @@ module.exports = (db) => {
   FROM users
   WHERE email= $1`
       , [`${email}`])
-      .then(result => result.rows[0])
-      .catch(err => console.log(err))
       .then(user => {
-        console.log(`got user ${user}`);
+        console.log(`got user ${user.rows[0]}`);
+        return user.rows[0];
         if (bcrypt.compareSync(password, user.password)) {
           return user;
         }
@@ -85,10 +84,10 @@ module.exports = (db) => {
         req.session.user_id = user_id;
         console.log(`User session is ${req.session.user_id}`);
         // res.send({ user: { email: user.email, id: user.id } });
-        const templateVars = { error: null, user_id: user_id };
-        res.render("index", templateVars);
+        const templateVars = {  error: null, user_id: user_id };
+        res.redirect("/api/resources/");
       })
-      .catch(e => res.send(e));
+      .catch(console.log("error"));
   });
 
   router.post("/logout", (req, res) => {

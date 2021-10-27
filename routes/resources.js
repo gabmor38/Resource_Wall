@@ -100,20 +100,22 @@ const cardBuilder=function(resources){
   // This api returns the resources to be shown on resource wall for a user
   // which contains all resources which are either created by this user or any resourse liked by anyone.
   router.get("/", (req, res) => {
+    console.log("getting resources")
     if (req.session.user_id) {
       const userId = req.session.user_id;
       console.log(`userId: ${userId}`);
-      const query = {
-        text: `select resources.id, resources.title, resources.url, ROUND(AVG(reviews.rating), 1) AS rating
-        from resources
-        join reviews on reviews.resource_id = resources.id
-        where resources.user_id = $1 
-        group by resources.id, resources.title, resources.url, reviews.resource_id`,
-        values: [userId]
-      };
-      db.query(query)
+      const query = `SELECT resources.id, resources.category, resources.title, resources.url, ROUND(AVG(reviews.rating), 1) AS rating
+        FROM resources
+        JOIN reviews ON reviews.resource_id = resources.id
+        WHERE resources.user_id = $1
+        GROUP BY resources.id, resources.title, resources.url, reviews.resource_id;`
+        const values= [userId];
+        console.log(query,values)
+
+      db.query(query,values)
         .then(result => {
-          console.log(result.rows)
+          console.log("rows");
+          console.log("rows", result.rows)
           const resources = result.rows;
           res.json({ resources });
 
