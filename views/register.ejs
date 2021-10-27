@@ -18,22 +18,21 @@
 
 <body>
   <%- include('./partials/_header.ejs') %>
-    <!-- <div>
-      <h1> Create Account </h1>
-    </div> -->
+  <div class="container pt-4">
     <div>
       <form action="/api/users/" method="POST">
-        <label for="email" <Email Adress:-< /label>
+        <label for="email">Email Adress:</label>
           <input type='email' id="email" name="email" placeholder="Enter email" style="width: 500px; margin: 1em ">
     </div>
     <div>
-      <label for="password" <Password:-< /label>
+      <label for="password">Password:</label>
         <input type='password' id="password" name="password" placeholder="Password" style="width: 500px;margin: 1em">
         <input style="color: rgb(32, 32, 38)" type="submit" value="Register">
     </div>
     <div>
       <p>Already Registerd? <a href="/api/users/login">Click here</a> to login.</p>
     </div>
+  </div>
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -44,6 +43,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"></script>
+
 </body>
 
 </html>

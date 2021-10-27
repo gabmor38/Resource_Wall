@@ -14,6 +14,7 @@ module.exports = (db) => {
     db.query(`SELECT * FROM users;`)
       .then(data => {
         const users = data.rows;
+        console.log(users);
         res.json({ users });
       })
       .catch(err => {
@@ -25,21 +26,21 @@ module.exports = (db) => {
 
   // // register a new user. Create new user resource.
   router.post('/', (req, res) => {
-    const user = req.body;
-    console.log(`email: ${user.email}`);
-    console.log(`password: ${user.password}`);
-    return db.query(`
-      INSERT INTO users ( email, password)
-      VALUES ($1, $2)
-      RETURNING *;
-    `, [user.email, bcrypt.hashSync(user.password, 12)])
-      .then((results) => {
-        console.log("Added new user.");
-        res.redirect('/api/users/login');
-      })
-      .catch((err) => {
-        throw err;
-      })
+  //   const user = req.body;
+  //   console.log(`email: ${user.email}`);
+  //   console.log(`password: ${user.password}`);
+  //   return db.query(`
+  //     INSERT INTO users ( email, password)
+  //     VALUES ($1, $2)
+  //     RETURNING *;
+  //   `, [user.email, bcrypt.hashSync(user.password, 12)])
+  //     .then((results) => {
+  //       console.log("Added new user.");
+  //       res.redirect('/api/users/login');
+  //     })
+  //     .catch((err) => {
+  //       throw err;
+  //     })
 
   });
 
@@ -71,6 +72,7 @@ module.exports = (db) => {
 
   router.post('/login', (req, res) => {
     const { email, password } = req.body;
+    console.log("POST login",req.body);
     login(email, password)
       .then(user => {
        console.log(user)
@@ -99,4 +101,4 @@ module.exports = (db) => {
   });
 
   return router;
-};
+ };
