@@ -45,7 +45,7 @@ module.exports = (db) => {
               return;
             }
             const user_id = user.id;
-            req.session.user_id = user_id;
+            req.session.user = user;
             res.redirect('/api/resources/');
           })
           .catch((err) => {
@@ -58,9 +58,9 @@ module.exports = (db) => {
   // login
   router.get('/login', (req, res) => {
 
-    if (!req.session.user_id) {
-      const user = req.session.user_id;
-      const templateVars = { error: null, user };
+    if (!req.session.user) {
+      const user = req.session.user;
+      const templateVars = { error: null, user: user };
       res.render("login", templateVars);
     } else {
       res.redirect('/api/resources');
@@ -90,16 +90,14 @@ module.exports = (db) => {
     login(email, password)
       .then(user => {
         console.log(user)
-
         if (!user) {
           res.send({ error: "error" });
           return;
         }
-        const user_id = user.id;
-        req.session.user_id = user_id;
-        console.log(`User session is ${req.session.user_id}`);
+        req.session.user = user;
+        console.log(`User session is ${req.session.user}`);
         // res.send({ user: { email: user.email, id: user.id } });
-        const templateVars = { error: null, user_id: user_id };
+        const templateVars = { error: null, user_id: req.session.user.id };
         res.redirect("/api/resources/");
       })
       .catch(console.log("error"));

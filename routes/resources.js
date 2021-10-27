@@ -7,7 +7,7 @@ module.exports = (db) => {
   // Get a resource by id. This api might be used for edit resource page.
   router.get("/:id", (req, res) => {
     const resourceId = req.params.id;
-    if (req.session.user_id) {
+    if (req.session.user) {
       console.log(`resourceId: ${resourceId}`);
       const query = {
         text: `SELECT * FROM resources WHERE id = $1`,
@@ -33,8 +33,8 @@ module.exports = (db) => {
   // This api creates a new resource
   // TODO: add support to redirect to home page after creation of resource.
   router.post("/", (req, res) => {
-    if (req.session.user_id) {
-      const userId = req.session.user_id;
+    if (req.session.user) {
+      const userId = req.session.user.id;
       const resource = req.body;
       console.log(`userId: ${userId}`)
       console.log(`resource: ${resource}`);
@@ -58,7 +58,7 @@ module.exports = (db) => {
           res.json({ 'data': 'success' });
           // TODO: Fix below code for the UI support.
           // const templateVars = {
-          //   user: req.session.user_id
+          //   user: req.session.user.id
           // };
           // console.log("templateVars", templateVars);
           // res.redirect(`login/${userId}`);
@@ -101,17 +101,17 @@ module.exports = (db) => {
   // which contains all resources which are either created by this user or any resourse liked by anyone.
   router.get("/", (req, res) => {
     console.log("getting resources")
-    if (req.session.user_id) {
-      const userId = req.session.user_id;
+    if (req.session.user) {
+      const user = req.session.user;
       console.log("user")
-      console.log(`userId: ${userId}`);
+      console.log(`userId: ${user.id}`);
       const query = `SELECT resources.id, resources.category, resources.title, resources.url, users.email, ROUND(AVG(reviews.rating), 1) AS rating
         FROM  users
         LEFT JOIN resources ON users.id = resources.user_id
         LEFT JOIN reviews ON resources.id = reviews.resource_id
         WHERE users.id = $1
         GROUP BY resources.id, users.email, resources.title, resources.url, reviews.resource_id;`
-      const values = [userId];
+      const values = [user.id];
       console.log("query")
       db.query(query, values)
         .then(result => {
@@ -120,7 +120,7 @@ module.exports = (db) => {
 
           const templateVars = {
             resources: result.rows,
-            user: result.rows[0].email
+            user: user
           };
           console.log(templateVars);
           res.render("index", templateVars);
@@ -135,7 +135,7 @@ module.exports = (db) => {
   // This api edits a resource
   // TODO: add support to redirect to home page after editing the resource.
   router.post("/:id", (req, res) => {
-    if (req.session.user_id) {
+    if (req.session.user) {
       const resource = req.body;
       const resourceId = req.params.id;
 
@@ -163,7 +163,7 @@ module.exports = (db) => {
           res.json({ 'data': 'success' });
           // TODO: Fix below code for the UI support.
           // const templateVars = {
-          //   user: req.session.user_id
+          //   user: req.session.user.id
           // };
           // console.log("templateVars", templateVars);
           // res.redirect(`login/${userId}`);
