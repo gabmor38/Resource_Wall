@@ -26,23 +26,51 @@ module.exports = (db) => {
 
   // // register a new user. Create new user resource.
   router.post('/', (req, res) => {
-  //   const user = req.body;
-  //   console.log(`email: ${user.email}`);
-  //   console.log(`password: ${user.password}`);
-  //   return db.query(`
-  //     INSERT INTO users ( email, password)
-  //     VALUES ($1, $2)
-  //     RETURNING *;
-  //   `, [user.email, bcrypt.hashSync(user.password, 12)])
-  //     .then((results) => {
-  //       console.log("Added new user.");
-  //       res.redirect('/api/users/login');
-  //     })
-  //     .catch((err) => {
-  //       throw err;
-  //     })
-
+    const email = req.body.email.toLowerCase();
+    const password = req.body.password;
+    console.log(`email: ${email}`);
+    console.log(`password: ${password}`);
+    if (!email || !password) {
+      // res.statusCode = 400;
+      // res.send("Email id or password can't be blank");
+      // return;
+      const templateVars = { error: 'Email id or password can not be blank', user_id: email };
+      res.render("register", templateVars);
+    }
+    if (getUserByEmail(email)) {
+      // res.status(400);
+      // res.send("Email already exist");
+      // return;
+      const templateVars = { error: 'Email already exist', user_id: email };
+      res.render('register', templateVars);
+    }
+    return db.query(`
+      INSERT INTO users ( email, password)
+      VALUES ($1, $2)
+      RETURNING *;
+    `, [email, bcrypt.hashSync(password, 12)])
+      .then((results) => {
+        console.log("Added new user.");
+        res.redirect('/api/users/login');
+      })
+      .catch((err) => {
+        throw err;
+      })
   });
+
+  //create email lookup helper function
+  const getUserByEmail = function (email) {
+    db.query(
+      `SELECT * FROM users
+      where email = $1;`, [email])
+      .then(data => {
+        const users = data.rows;
+        return users;
+      })
+      .catch(err => {
+        return null;
+      });
+  };
 
   // login
   router.get('/login', (req, res) => {
@@ -71,20 +99,24 @@ module.exports = (db) => {
 
   router.post('/login', (req, res) => {
     const { email, password } = req.body;
-    console.log("POST login",req.body);
+    console.log(`email: ${email}`);
+    console.log(`password: ${password}`);
     login(email, password)
       .then(user => {
-       console.log(user)
+        console.log(user)
 
         if (!user) {
-          res.send({ error: "error" });
-          return;
+          // res.send({ error: "error" });
+          // return;
+          const templateVars = { error: "Email and Password should not be empty", user: null };
+          return res.render("login", templateVars);
+
         }
         const user_id = user.id;
         req.session.user_id = user_id;
         console.log(`User session is ${req.session.user_id}`);
         // res.send({ user: { email: user.email, id: user.id } });
-        const templateVars = {  error: null, user_id: user_id };
+        const templateVars = { error: null, user_id: user_id };
         res.redirect("/api/resources/");
       })
       .catch(console.log("error"));
@@ -100,4 +132,4 @@ module.exports = (db) => {
   });
 
   return router;
- };
+};

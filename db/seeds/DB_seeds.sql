@@ -1,7 +1,7 @@
 -- Users table seeds here (Example)
-INSERT INTO users (email, password) VALUES ('Alice@gmail.com', 'password123');
-INSERT INTO users (email, password) VALUES ('Kira@yahoo.com','password12');
-INSERT INTO users (email, password) VALUES ('Leila@hotmail.com', 'password');
+INSERT INTO users (email, password) VALUES ('alice@gmail.com', 'password123');
+INSERT INTO users (email, password) VALUES ('kira@yahoo.com','password12');
+INSERT INTO users (email, password) VALUES ('leila@hotmail.com', 'password');
 
 INSERT INTO resources (user_id, number_of_likes, url, title, description, category, date) VALUES (1,3, 'https://jquery.com', 'Jquery', 'Jquery documentation', 'math','2021-09-10');
 INSERT INTO resources (user_id, number_of_likes, url, title, description, category, date) VALUES (1, 2,'https://www.khanacademy.org/math', 'Math', 'Math article and exercises','science', '2020-01-01');
