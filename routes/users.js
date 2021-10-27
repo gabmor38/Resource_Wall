@@ -96,7 +96,11 @@ module.exports = (db) => {
   });
 
   router.get('/register', (req, res) => {
-    res.render('register');
+
+    templateVars={
+      user:null
+    }
+    res.render('register',templateVars);
   });
 
   return router;
