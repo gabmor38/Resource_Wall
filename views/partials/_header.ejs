@@ -7,47 +7,23 @@
     </button>
     <div class="collapse navbar-collapse d-flex justify-content-end mx-2" id="navbarNavAltMarkup">
 
-<<<<<<< HEAD
-      <div class="navbar-nav"></div>
-        <% if(locals.user){ %>
-          <form action="/login" method="POST">
-            <div class="text">Logged In As: <%=users.email%>
-=======
       <div class="navbar-nav">
         <% if(locals.user_id){ %>
           <form action="/api/users/logout" method="POST">
             <div class="text" style="color: antiquewhite;">Logged In As: <%=user_id%>
->>>>>>> 28d4f49ba5a1c0ddd4811fffc39d2b1a5bdbfcb1
                 <button type="submit" class="btn btn-primary">Logout</button>
 
           </form>
-<<<<<<< HEAD
-          <form action="/api/users/resources" method="GET">
-            <div class="text">search: <%=user.resources%>
-                <button type="submit" class="btn btn-primary">My Resources</button>
-          </form>
-          <form action="/search" method="POST">
-            <div class="text">search: <%=user.resources%>
-                <button type="submit" class="btn btn-primary">Search</button>
-          </form>
-          <% } else{ %>
-            <form action="/api/users" method="GET">
-              <button type="submit" class="btn btn-light mx-2">Login</button>
-            </form>
-            <form method="GET" action="/api/users/register">
-              <button type="submit" class="btn btn-light">Register</button>
-=======
           <!-- <form action="/search" method="POST">
             <div class="text">search:
               <button type="submit" class="btn btn-primary">Search</button>
           </form> -->
-          <% } else{ %>
+          <% } else { %>
             <form action="/login" method="GET">
-              <button type="button" class="btn btn-light mx-2"> <a href="/api/users/login">Login</button></a>
+              <button type="button" class="btn btn-light mx-2"> <a href="/api/users/login"> SEE Login</button></a>
             </form>
             <form method="GET" action="/register">
               <button type="button" class="btn btn-light mx-2"> <a href="/api/users/register">Register</button></a>
->>>>>>> 28d4f49ba5a1c0ddd4811fffc39d2b1a5bdbfcb1
             </form>
 
             <% } %>
