@@ -42,14 +42,19 @@ module.exports = (db) => {
   //       throw err;
   //     })
 
-  });
+      });
+
 
   // login
   router.get('/login', (req, res) => {
 
-    const user_id = req.session.user_id;
-    const templateVars = { error: null, user_id: user_id };
-    res.render("login", templateVars);
+    if (!req.session.user) {
+      const user = req.session.user;
+      const templateVars = { error: null, user: user };
+      res.render("login", templateVars);
+    } else {
+      res.redirect('/api/resources');
+    }
   });
 
   const login = function (email, password) {
@@ -58,35 +63,34 @@ module.exports = (db) => {
   FROM users
   WHERE email= $1`
       , [`${email}`])
-      .then(result => result.rows[0])
-      // .then(user => {
-      //   console.log(`got user ${user}`);
-      //   if (bcrypt.compareSync(password, user.password)) {
-      //     return user;
-      //   }
-      //   return null;
-      // })
-      .catch(err => console.log(err))
-  };
+      .then(user => {
+        console.log(`got user ${user.rows}`);
+        return user.rows[0];
+        if (bcrypt.compareSync(password, user.password)) {
+          return user;
+        }
+        return null;
+      });
+  }
   exports.login = login;
 
   router.post('/login', (req, res) => {
     const { email, password } = req.body;
-    console.log("POST login",req.body);
+    console.log("POST login", req.body);
     login(email, password)
       .then(user => {
+        console.log(user)
         if (!user) {
           res.send({ error: "LOGIN ROUTE,error" });
           return;
         }
-        const user_id = user.id;
-        req.session.user_id = user_id;
-        console.log(`User session is ${req.session.user_id}`);
+        req.session.user = user;
+        console.log(`User session is ${req.session.user}`);
         // res.send({ user: { email: user.email, id: user.id } });
-        const templateVars = { error: null, user_id: user_id };
-        res.render("index", templateVars);
+        const templateVars = { error: null, user_id: req.session.user.id };
+        res.redirect("/api/resources/");
       })
-      .catch(e => res.send(e));
+      .catch(console.log("error"));
   });
 
   router.post("/logout", (req, res) => {
@@ -95,8 +99,12 @@ module.exports = (db) => {
   });
 
   router.get('/register', (req, res) => {
-    res.render('register');
+
+    templateVars = {
+      user: null
+    }
+    res.render('register', templateVars);
   });
 
   return router;
- };
+};

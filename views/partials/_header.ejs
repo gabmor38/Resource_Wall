@@ -8,8 +8,9 @@
     <div class="collapse navbar-collapse d-flex justify-content-end mx-2" id="navbarNavAltMarkup">
 
       <div class="navbar-nav">
-        <% if(locals.user_id){ %>
+        <% if(user){ %>
           <div class="d-flex">
+<<<<<<< HEAD
           <form action="/api/users/logout" method="POST">
             <div class="text" style="color: antiquewhite;">Logged In As: <%=user_id%>
                 <button type="submit" class="btn btn-primary mr-3">Logout</button>
@@ -34,10 +35,37 @@
             </form>
             <form method="GET" action="/register">
               <button type="button" class="btn btn-light mx-2"> <a href="/api/users/register">Register</button></a>
+=======
+            <form action="/api/users/logout" method="POST">
+              <div class="text" style="color: antiquewhite;">Logged In As: <%=user.email%>
+                  <button type="submit" class="btn btn-primary mr-3">Logout</button>
+>>>>>>> a0c31b6fd12310951435328cb622c8c43465c9fc
             </form>
-
-            <% } %>
+          </div>
       </div>
+      <form action="/api/resources" method="POST">
+        <!-- <div class="text d-flex">search:</div> -->
+        <button type="submit" class="btn btn-primary mx-2">My Resources</button>
+      </form>
+      <form action="/api/resources" method="POST">
+        <!-- <div class="text d-flex">search:</div> -->
+        <button type="submit" class="btn btn-primary mx-2">Search</button>
+      </form>
+      <form action="/api/resources" method="POST">
+        <!-- <div class="text d-flex">search:</div> -->
+        <button type="submit" class="btn btn-primary mx-2">Add Resource</button>
+      </form>
+
+      <% } else { %>
+        <form action="/login" method="GET">
+          <button type="button" class="btn btn-light mx-2"> <a href="/api/users/login">Login</button></a>
+        </form>
+        <form method="GET" action="/register">
+          <button type="button" class="btn btn-light mx-2"> <a href="/api/users/register">Register</button></a>
+        </form>
+
+        <% } %>
+    </div>
     </div>
 
 

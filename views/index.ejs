@@ -8,6 +8,7 @@
 
   <title>Resource Wall Home</title>
 
+  <link rel="stylesheet" href="../public/images/fontAwesome/font-awesome-4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
   <link rel="stylesheet" href="/styles/main.css" type="text/css" />
@@ -29,50 +30,29 @@
     <div class="background">
       <div class="container pt-4">
         <div class="row row-cols-1 row-cols-md-3">
+
+          <% if(user) {%>
+            <% if(!resources[0].id) {%>
+              <h1>Get started by liking or adding some resources!</h1>
+              <% } else { %>
+
+            <% for(let resource in resources) { %>
           <div class="card-deck">
             <div class="card">
-              <img src="/images/computerChip.jpg" class="card-img-top" alt="computerChip">
+              <img src="/images/<%= resources[resource].category%>.jpeg" class="card-img-top" alt="<%= resources[resource].category%>.">
               <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-                  content. This content is a little bit longer.</p>
+                <h5 class="card-title"><%= resources[resource].title%></h5>
+                <i class="fa fa-heart"></i>
+                <p class="card-text"><%= resources[resource].description%></p>
                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
               </div>
             </div>
           </div>
-          <div class="card-deck">
-            <div class="card">
-              <img src="/images/books.jpeg" class="card-img-top" alt="books">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-                  content. This content is a little bit longer.</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-              </div>
-            </div>
-          </div>
-          <div class="card-deck">
-            <div class="card">
-              <img src="/images/Science2.jpeg" class="card-img-top" alt="science">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-                  content. This content is a little bit longer.</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-              </div>
-            </div>
-          </div>
-          <div class="card-deck mt-4">
-            <div class="card">
-              <img src="/images/computers.jpeg" class="card-img-top" alt="computer">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-                  content. This content is a little bit longer.</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-              </div>
-            </div>
-          </div>
+            <% } %>
+          <% } %>
+          <% } else {%>
+            <h1>Get started by creating an account or logging in!</h1>
+            <% } %>
         </div>
 </body>
 </html>
