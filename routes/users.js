@@ -30,8 +30,8 @@ module.exports = (db) => {
   //   console.log(`email: ${user.email}`);
   //   console.log(`password: ${user.password}`);
   //   return db.query(`
-  //     INSERT INTO users ( email, password)
-  //     VALUES ($1, $2)
+  //     INSERT INTO users ( id, email, password)
+  //     VALUES ($1, $2,)
   //     RETURNING *;
   //   `, [user.email, bcrypt.hashSync(user.password, 12)])
   //     .then((results) => {
@@ -57,17 +57,17 @@ module.exports = (db) => {
   SELECT *
   FROM users
   WHERE email= $1`
-      , [`${email.toLowerCase()}`])
+      , [`${email}`])
       .then(result => result.rows[0])
+      // .then(user => {
+      //   console.log(`got user ${user}`);
+      //   if (bcrypt.compareSync(password, user.password)) {
+      //     return user;
+      //   }
+      //   return null;
+      // })
       .catch(err => console.log(err))
-      .then(user => {
-        console.log(`got user ${user}`);
-        if (bcrypt.compareSync(password, user.password)) {
-          return user;
-        }
-        return null;
-      });
-  }
+  };
   exports.login = login;
 
   router.post('/login', (req, res) => {
@@ -76,10 +76,10 @@ module.exports = (db) => {
     login(email, password)
       .then(user => {
         if (!user) {
-          res.send({ error: "error" });
+          res.send({ error: "LOGIN ROUTE,error" });
           return;
         }
-        const user_id = user.email;
+        const user_id = user.id;
         req.session.user_id = user_id;
         console.log(`User session is ${req.session.user_id}`);
         // res.send({ user: { email: user.email, id: user.id } });
