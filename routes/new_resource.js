@@ -28,8 +28,8 @@ module.exports = (db) => {
       [user_Id, url, title, description, category, date]
     )
       .then((data) => {
-        const newResource = data.rows[0];
-        res.redirect('/');
+        const newResource = data.rows;
+        res.render('index', newResource);
       })
       .catch((error) => {
         res.status(500).json({ error: error.message });
