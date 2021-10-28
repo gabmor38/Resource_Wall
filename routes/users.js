@@ -96,7 +96,6 @@ module.exports = (db) => {
         }
         req.session.user = user;
         console.log(`User session is ${req.session.user}`);
-        // res.send({ user: { email: user.email, id: user.id } });
         const templateVars = { error: null, user_id: req.session.user.id };
         res.redirect("/api/resources/");
       })

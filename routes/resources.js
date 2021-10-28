@@ -30,6 +30,24 @@ module.exports = (db) => {
     }
   });
 
+  const searchFunct=function(term){
+    const query=`SELECT * from resources WHERE resources.description LIKE $1`
+    const value=[term]
+
+    return db.query(query,value)
+          .then(resources=>{
+            
+          })
+  }
+
+  router.post("/search",(req,res)=>{
+    const {search}=req.body;
+    console.log("search", search)
+
+
+
+  })
+
   // This api creates a new resource
   // TODO: add support to redirect to home page after creation of resource.
   router.post("/", (req, res) => {

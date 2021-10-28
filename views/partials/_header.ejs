@@ -10,6 +10,11 @@
       <div class="navbar-nav">
         <% if(user){ %>
           <div class="d-flex">
+
+            <form action="/api/resources/search" method="POST">
+              <input type="search" placeholder="search resources...">
+              <button type="submit" id="search" name="search" class="btn btn-primary mx-2">Search</button>
+            </form>
             <form action="/api/users/logout" method="POST">
               <div class="text" style="color: antiquewhite;">Logged In As: <%=user.email%>
                   <button type="submit" class="btn btn-primary mr-3">Logout</button>
