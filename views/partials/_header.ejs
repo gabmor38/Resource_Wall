@@ -11,6 +11,7 @@
         <% if(user){ %>
           <div class="d-flex">
 <<<<<<< HEAD
+<<<<<<< HEAD
           <form action="/api/users/logout" method="POST">
             <div class="text" style="color: antiquewhite;">Logged In As: <%=user_id%>
                 <button type="submit" class="btn btn-primary mr-3">Logout</button>
@@ -36,6 +37,14 @@
             <form method="GET" action="/register">
               <button type="button" class="btn btn-light mx-2"> <a href="/api/users/register">Register</button></a>
 =======
+=======
+
+            <form action="/api/resources/search" method="POST">
+              <!-- <div class="text d-flex">search:</div> -->
+                <input type="search" id="search" name="search" placeholder="Search for resources!"></input>
+                <button type="submit" class="btn btn-primary mx-2">Search</button>
+            </form>
+>>>>>>> eeeab42f7a1391836bc185d534d39a98ef3c01c4
             <form action="/api/users/logout" method="POST">
               <div class="text" style="color: antiquewhite;">Logged In As: <%=user.email%>
                   <button type="submit" class="btn btn-primary mr-3">Logout</button>
@@ -46,10 +55,6 @@
       <form action="/api/resources" method="POST">
         <!-- <div class="text d-flex">search:</div> -->
         <button type="submit" class="btn btn-primary mx-2">My Resources</button>
-      </form>
-      <form action="/api/resources" method="POST">
-        <!-- <div class="text d-flex">search:</div> -->
-        <button type="submit" class="btn btn-primary mx-2">Search</button>
       </form>
       <form action="/api/resources" method="POST">
         <!-- <div class="text d-flex">search:</div> -->
