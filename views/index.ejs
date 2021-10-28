@@ -8,7 +8,7 @@
 
   <title>Resource Wall Home</title>
 
-  <link rel="stylesheet" href="../public/images/fontAwesome/font-awesome-4.7.0/css/font-awesome.min.css">
+  <!--Font Awesome--> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
   <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
   <link rel="stylesheet" href="/styles/main.css" type="text/css" />
@@ -38,13 +38,17 @@
 
             <% for(let resource in resources) { %>
           <div class="card-deck">
-            <div class="card">
+            <div class="card mb-3">
               <img src="/images/<%= resources[resource].category%>.jpeg" class="card-img-top" alt="<%= resources[resource].category%>.">
               <div class="card-body">
                 <h5 class="card-title"><%= resources[resource].title%></h5>
-                <i class="fa fa-heart"></i>
                 <p class="card-text"><%= resources[resource].description%></p>
+                <div class="d-flex flex-wrap justify-content-between align-items-baseline">
+                <i class="fa fa-heart"></i>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="btn btn-primary">Comment</a>
                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+              </div>
               </div>
             </div>
           </div>

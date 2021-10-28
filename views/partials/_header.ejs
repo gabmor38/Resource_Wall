@@ -25,8 +25,8 @@
         <!-- <div class="text d-flex">search:</div> -->
         <button type="submit" class="btn btn-primary mx-2">My Resources</button>
       </form>
+       <a href="/api/new_resource/new"><button type="submit" class="btn btn-primary mx-2"><i class="fas fa-plus-square"></i> Resource</button></a>
 
-       <a href="/api/new_resource/new"><button type="submit" class="btn btn-primary mx-2">Add Resource</button></a>
       <% } else { %>
         <form action="/login" method="GET">
           <button type="button" class="btn btn-light mx-2"> <a href="/api/users/login">Login</button></a>

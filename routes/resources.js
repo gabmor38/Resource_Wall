@@ -106,7 +106,7 @@ module.exports = (db) => {
   <div class="card-deck">
             <div class="card">
               <div >
-               <i class="fa fa-heart"></i>
+               <i class="fa-regular fa-heart"></i>
                <p> number of likes</p>
               </div>
               <img src="/images/${resource.category}.jpeg" class="card-img-top" alt="${resource.category}">

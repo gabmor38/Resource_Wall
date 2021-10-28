@@ -14,7 +14,7 @@ module.exports = (db) => {
   //   });
 
   router.get('/new', (req, res) => {
-    const user_id = req.session.user_id;
+    const user_id = req.session.user.id;
     const templateVars = { user: user_id };
     console.log("this is the vars in New Get",templateVars);
     if (!user_id) {
@@ -36,7 +36,7 @@ module.exports = (db) => {
       `INSERT INTO resources (user_id, url, title, description) VALUES ($1,$2, $3, $4) RETURNING *`,
       [user_id, url, title, description]
     )
-      .then((res2) => {
+      .then((result) => {
         res.redirect('/users/login');
       })
       .catch((error) => {
