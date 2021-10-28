@@ -28,19 +28,23 @@ module.exports = (db) => {
   });
 
   router.post('/new', (req, res) => {
-    const { user_id } = req.session;
-    const { url, title, description } = req.body;
-    console.log(req.body);
+    const user_Id = req.session.user.id;
+    const { title, url, description, category } = req.body;
+    const date = new Date();
+    console.log("this is the reqbody",req.body);
     console.log(req.session);
     db.query(
-      `INSERT INTO resources (user_id, url, title, description) VALUES ($1,$2, $3, $4) RETURNING *`,
-      [user_id, url, title, description]
+      `INSERT INTO resources (user_Id, url, title, description, category, date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+      [user_Id, url, title, description, category, date]
     )
-      .then((result) => {
-        res.redirect('/users/login');
+      .then((data) => {
+        const newResource = data.rows[0];
+        console.log("thisis the data",newResource);
+        res.redirect('/', newResource);
       })
       .catch((error) => {
-        res.status(500).json({ error: error.message });
+        console.log(error)
+        // res.status(500).json({ error: error.message });
       });
   });
 

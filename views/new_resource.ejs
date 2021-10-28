@@ -23,19 +23,19 @@
       <form action="/api/new_resource/new" method="POST">
         <div class="form-group">
           <label for="title">Resource Title</label>
-          <input type="text" class="form-control" id="resource.title" placeholder="Resource Title">
+          <input type="text" name="title" class="form-control" id="resource.title" placeholder="Resource Title">
         </div>
         <div class="form-group">
           <label for="url">Url</label>
-          <input type="text" class="form-control" id="url" placeholder="Url">
+          <input type="text" class="form-control" name="url" placeholder="Url">
         </div>
         <div class="form-group">
           <label for="description">Description</label>
-          <textarea class="form-control" id="description" rows="2"></textarea>
+          <textarea class="form-control" name="description" rows="2"></textarea>
         </div>
         <div class="form-group">
           <label for="category">Select a Category</label>
-          <select class="form-control" id="CategorySelect">
+          <select class="form-control" name="category">
             <option>Math</option>
             <option>Science</option>
             <option>Technology</option>
