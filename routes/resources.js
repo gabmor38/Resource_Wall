@@ -30,23 +30,31 @@ module.exports = (db) => {
     }
   });
 
-  const searchFunct=function(term){
-    const query=`SELECT * from resources WHERE resources.description LIKE $1`
-    const value=[term]
-
-    return db.query(query,value)
-          .then(resources=>{
-            
-          })
-  }
-
   router.post("/search",(req,res)=>{
-    const {search}=req.body;
-    console.log("search", search)
+    console.log(req.body)
 
+    searchedTerm=req.body.search;
 
+    const query = `SELECT resources.description, resources.id, resources.category, resources.title, resources.url, ROUND(AVG(reviews.rating), 1) AS rating
+        from resources
+        JOIN reviews ON resources.id=reviews.resource_id
+        WHERE resources.description LIKE '%' || $1 || '%'
+        GROUP BY resources.id, resources.title, resources.url, reviews.resource_id;`
+        const values= [searchedTerm];
+      db.query(query,values)
+        .then(result => {
+          console.log("user is",req.session.user)
+          console.log("rows", result.rows)
+          const templateVars = {
+            resources: result.rows,
+            user : req.session.user
+          };
+             console.log("tv is",templateVars)
+            res.render("index", templateVars);
 
-  })
+        })
+        .catch(err => console.log(err));
+    });
 
   // This api creates a new resource
   // TODO: add support to redirect to home page after creation of resource.
