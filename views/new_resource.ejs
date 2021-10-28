@@ -21,24 +21,26 @@
   <%- include('./partials/_header.ejs') %>
     <div class="container pt-4">
       <form action="/api/new_resource/new" method="POST">
-        <div class="form-group">
+        <div class="form-group mb-2">
           <label for="title">Resource Title</label>
           <input type="text" name="title" class="form-control" id="resource.title" placeholder="Resource Title">
         </div>
-        <div class="form-group">
+        <div class="form-group mb-2">
           <label for="url">Url</label>
-          <input type="text" class="form-control" name="url" placeholder="Url">
+          <input type="text" class="form-control" name="url" placeholder="url">
         </div>
-        <div class="form-group">
+        <div class="form-group mb-2">
           <label for="description">Description</label>
-          <textarea class="form-control" name="description" rows="2"></textarea>
+          <textarea class="form-control" name="description" placeholder="Please describe the resource" rows="2"></textarea>
         </div>
-        <div class="form-group">
-          <label for="category">Select a Category</label>
-          <select class="form-control" name="category">
-            <option>Math</option>
-            <option>Science</option>
-            <option>Technology</option>
+
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="category">Category</label>
+          <select class="form-select" name="category" id="category">
+            <option selected>Choose...</option>
+            <option value="1">Math</option>
+            <option value="2">Science</option>
+            <option value="3">Technology</option>
           </select>
         </div>
         <button type="submit" class="btn btn-primary mt-2"><i class="fas fa-plus-square"></i> Create</button>
