@@ -9,23 +9,25 @@
 
       <div class="navbar-nav">
         <% if(user){ %>
-          <div class="d-flex">
-            <form action="/api/resources/search" method="POST">
-              <!-- <div class="text d-flex">search:</div> -->
-                <input type="search" id="search" name="search" placeholder="Search for resources!"></input>
-                <button type="submit" class="btn btn-primary mx-2"><i class="fas fa-search"></i></button>
-            </form>
-            <form action="/api/users/logout" method="POST">
-              <div class="text" style="color: antiquewhite;"><%=user.email%>
-                  <button type="submit" class="btn btn-primary mr-3">Logout</button>
-            </form>
-          </div>
+
+          <form class="d-flex" action="/api/resources/search" method="POST">
+            <input class="form-control " type="search" id="search" name="search" placeholder="Search for resources!"
+              aria-label="Search">
+            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+          </form>
       </div>
       <form action="/api/resources" method="POST">
-        <!-- <div class="text d-flex">search:</div> -->
         <button type="submit" class="btn btn-primary mx-2">My Resources</button>
       </form>
-       <a href="/api/new_resource/new"><button type="submit" class="btn btn-primary mx-2"><i class="fas fa-plus-square"></i> Resource</button></a>
+      <a href="/api/new_resource/new"><button type="submit" class="btn btn-primary mx-2"><i
+            class="fas fa-plus-square"></i> Resource</button></a>
+      <div class="d-flex">
+        <form action="/api/users/logout" method="POST">
+          <button type="submit" class="btn btn-primary" style="margin-right:30px;">Logout: <span>
+              <%=user.email%>
+            </span></button>
+        </form>
+      </div>
 
       <% } else { %>
         <form action="/login" method="GET">
