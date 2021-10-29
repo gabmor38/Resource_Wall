@@ -20,6 +20,7 @@
 <body>
   <%- include('./partials/_header.ejs') %>
     <div class="container pt-4">
+      <h2 class="text-center">Add a Resource</h2>
       <form action="/api/new_resource/new" method="POST">
         <div class="form-group mb-2">
           <label for="title">Resource Title</label>
@@ -27,7 +28,7 @@
         </div>
         <div class="form-group mb-2">
           <label for="url">Resource url</label>
-          <input type="text" class="form-control" name="url" placeholder="url">
+          <input type="text" class="form-control" name="url" placeholder="Resource url">
         </div>
         <div class="form-group mb-3">
           <label for="description">Description</label>
