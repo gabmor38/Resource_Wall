@@ -5,14 +5,12 @@ module.exports = (db) => {
 
 
   router.get('/new', (req, res) => {
-    const user_id = req.session.user.id;
-    const templateVars = { user: user_id };
-    if (!user_id) {
+    console.log("user is",req.session.user)
+    const templateVars = { user: req.session.user };
+    if (!req.session.user) {
       res.redirect('/', templateVars);
     } else {
-      const templateVars = {
-        user: user_id
-      };
+
       res.render('new_resource', templateVars);
     }
   });
@@ -21,15 +19,19 @@ module.exports = (db) => {
   router.post('/new', (req, res) => {
     const user_Id = req.session.user.id;
     const { title, url, description, category } = req.body;
+
     const date = new Date();
-    console.log(req.session);
     db.query(
       `INSERT INTO resources (user_Id, url, title, description, category, date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
       [user_Id, url, title, description, category, date]
     )
       .then((data) => {
-        const newResource = data.rows;
-        res.render('index', newResource);
+        templateVars={
+          newResource : data.rows,
+          user : req.session.user
+
+        }
+        res.redirect("/api/resources/");
       })
       .catch((error) => {
         res.status(500).json({ error: error.message });
