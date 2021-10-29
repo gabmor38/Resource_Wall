@@ -30,8 +30,8 @@ module.exports = (db) => {
     }
   });
 
-  router.post("/search",(req,res)=>{
-    console.log("search",req.body.search)
+  router.post("/search", (req, res) => {
+    console.log("search", req.body.search)
 
     searchedTerm = req.body.search;
 
@@ -127,18 +127,19 @@ module.exports = (db) => {
   // which contains all resources which are either created by this user or any resourse liked by anyone.
   router.get("/", (req, res) => {
     console.log("getting resources")
-    console.log("userrrr",req.session.user)
+    console.log("userrrr", req.session.user)
     if (req.session.user) {
       const user = req.session.user;
       console.log("user")
       console.log(`userId: ${user.id}`);
-      const query = `select resources.id, resources.category, resources.title, resources.url, count(liked.*) as number_of_likes, ROUND(AVG(reviews.rating), 1) AS rating,
+      const query = `select resources.id, resources.category, resources.title, resources.url, (select count(*) from liked where resource_id = resources.id) as number_of_likes, ROUND(AVG(reviews.rating), 1) AS rating,
       case when (select count(*) from liked where user_id = resources.user_id and resource_id = resources.id) > 0 then 'YES' else 'NO' end as liked
       from resources
       LEFT JOIN reviews ON resources.id = reviews.resource_id
       left join liked on resources.id = liked.resource_id
-      where resources.user_id = $1
-      group by reviews.resource_id, liked.resource_id, resources.id, resources.category, resources.title, resources.url;`
+      where resources.user_id = $1 OR liked.user_id = $1
+      group by reviews.resource_id, liked.resource_id, resources.id, resources.category, resources.title, resources.url
+      order by resources.id;`
       const values = [user.id];
       db.query(query, values)
         .then(result => {
@@ -150,7 +151,7 @@ module.exports = (db) => {
             user: user
           };
 
-          if(!templateVars.resources[0]){
+          if (!templateVars.resources[0]) {
             console.log("triggered if")
           }
           console.log(templateVars);
@@ -207,15 +208,21 @@ module.exports = (db) => {
   });
 
   // This api is used to like a resource, works like a toggle button
-  router.post("/:id/like", (req, res) => {
+  router.post("/:id/like/:isliked", (req, res) => {
     if (req.session.user) {
       const resourceId = req.params.id;
+      const isliked = req.params.isliked;
       const userId = req.session.user.id;
       // TODO: make sure, id, user_id, number_of_likes, date are not mentioned in body
       console.log(`resource: ${resourceId}`);
+      let queryText = `insert into liked (user_id, resource_id) values ($1,$2)
+      RETURNING *`;
+      if (isliked === 'YES') {
+        queryText = `delete from liked where user_id=$1 and resource_id=$2
+        RETURNING *`;
+      }
       const query = {
-        text: `insert into liked (user_id, resource_id) values ($1,$2)
-        RETURNING *`,
+        text: queryText,
         values: [
           userId,
           resourceId
