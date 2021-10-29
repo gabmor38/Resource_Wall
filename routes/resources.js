@@ -31,7 +31,7 @@ module.exports = (db) => {
   });
 
   router.post("/search",(req,res)=>{
-    console.log(req.body)
+    console.log("search",req.body.search)
 
     searchedTerm=req.body.search;
 
@@ -41,6 +41,7 @@ module.exports = (db) => {
         WHERE resources.description LIKE '%' || $1 || '%'
         GROUP BY resources.id, resources.title, resources.url, reviews.resource_id;`
         const values= [searchedTerm];
+        console.log("query is", query)
       db.query(query,values)
         .then(result => {
           console.log("user is",req.session.user)
@@ -127,6 +128,7 @@ module.exports = (db) => {
   // which contains all resources which are either created by this user or any resourse liked by anyone.
   router.get("/", (req, res) => {
     console.log("getting resources")
+    console.log("userrrr",req.session.user)
     if (req.session.user) {
       const user = req.session.user;
       console.log("user")
@@ -138,7 +140,6 @@ module.exports = (db) => {
         WHERE users.id = $1
         GROUP BY resources.id, users.email, resources.title, resources.url, reviews.resource_id;`
       const values = [user.id];
-      console.log("query")
       db.query(query, values)
         .then(result => {
           console.log("rows")
@@ -148,6 +149,10 @@ module.exports = (db) => {
             resources: result.rows,
             user: user
           };
+          
+          if(!templateVars.resources[0]){
+            console.log("triggered if")
+          }
           console.log(templateVars);
           res.render("index", templateVars);
         })

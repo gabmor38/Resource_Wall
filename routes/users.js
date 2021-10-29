@@ -26,21 +26,22 @@ module.exports = (db) => {
 
   // // register a new user. Create new user resource.
   router.post('/', (req, res) => {
-  //   const user = req.body;
-  //   console.log(`email: ${user.email}`);
-  //   console.log(`password: ${user.password}`);
-  //   return db.query(`
-  //     INSERT INTO users ( id, email, password)
-  //     VALUES ($1, $2,)
-  //     RETURNING *;
-  //   `, [user.email, bcrypt.hashSync(user.password, 12)])
-  //     .then((results) => {
-  //       console.log("Added new user.");
-  //       res.redirect('/api/users/login');
-  //     })
-  //     .catch((err) => {
-  //       throw err;
-  //     })
+    const user = req.body;
+    console.log(`email: ${user.email}`);
+    console.log(`password: ${user.password}`);
+    return db.query(`
+      INSERT INTO users ( email, password)
+      VALUES ($1, $2)
+      RETURNING *;
+    `, [user.email, bcrypt.hashSync(user.password, 12)])
+      .then((results) => {
+        console.log("Added new user.",results.rows[0]);
+        req.session.user = results.rows[0];
+        res.redirect("/api/resources/");
+      })
+      .catch((err) => {
+        throw err;
+      })
 
       });
 
