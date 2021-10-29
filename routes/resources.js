@@ -33,29 +33,28 @@ module.exports = (db) => {
   router.post("/search",(req,res)=>{
     console.log("search",req.body.search)
 
-    searchedTerm=req.body.search;
+    searchedTerm = req.body.search;
 
     const query = `SELECT resources.description, resources.id, resources.category, resources.title, resources.url, ROUND(AVG(reviews.rating), 1) AS rating
         from resources
         JOIN reviews ON resources.id=reviews.resource_id
         WHERE resources.description LIKE '%' || $1 || '%'
         GROUP BY resources.id, resources.title, resources.url, reviews.resource_id;`
-        const values= [searchedTerm];
-        console.log("query is", query)
-      db.query(query,values)
-        .then(result => {
-          console.log("user is",req.session.user)
-          console.log("rows", result.rows)
-          const templateVars = {
-            resources: result.rows,
-            user : req.session.user
-          };
-             console.log("tv is",templateVars)
-            res.render("index", templateVars);
+    const values = [searchedTerm];
+    db.query(query, values)
+      .then(result => {
+        console.log("user is", req.session.user)
+        console.log("rows", result.rows)
+        const templateVars = {
+          resources: result.rows,
+          user: req.session.user
+        };
+        console.log("tv is", templateVars)
+        res.render("index", templateVars);
 
-        })
-        .catch(err => console.log(err));
-    });
+      })
+      .catch(err => console.log(err));
+  });
 
   // This api creates a new resource
   // TODO: add support to redirect to home page after creation of resource.
@@ -133,12 +132,13 @@ module.exports = (db) => {
       const user = req.session.user;
       console.log("user")
       console.log(`userId: ${user.id}`);
-      const query = `SELECT resources.id, resources.category, resources.title, resources.url, users.email, ROUND(AVG(reviews.rating), 1) AS rating
-        FROM  users
-        LEFT JOIN resources ON users.id = resources.user_id
-        LEFT JOIN reviews ON resources.id = reviews.resource_id
-        WHERE users.id = $1
-        GROUP BY resources.id, users.email, resources.title, resources.url, reviews.resource_id;`
+      const query = `select resources.id, resources.category, resources.title, resources.url, count(liked.*) as number_of_likes, ROUND(AVG(reviews.rating), 1) AS rating,
+      case when (select count(*) from liked where user_id = resources.user_id and resource_id = resources.id) > 0 then 'YES' else 'NO' end as liked
+      from resources
+      LEFT JOIN reviews ON resources.id = reviews.resource_id
+      left join liked on resources.id = liked.resource_id
+      where resources.user_id = $1
+      group by reviews.resource_id, liked.resource_id, resources.id, resources.category, resources.title, resources.url;`
       const values = [user.id];
       db.query(query, values)
         .then(result => {
@@ -149,7 +149,7 @@ module.exports = (db) => {
             resources: result.rows,
             user: user
           };
-          
+
           if(!templateVars.resources[0]){
             console.log("triggered if")
           }
@@ -198,6 +198,32 @@ module.exports = (db) => {
           // };
           // console.log("templateVars", templateVars);
           // res.redirect(`login/${userId}`);
+        })
+        .catch(err => console.log(err));
+    } else {
+      // TODO: redirect to the login page, for now send empty response
+      res.json({ 'data': null });
+    }
+  });
+
+  // This api is used to like a resource, works like a toggle button
+  router.post("/:id/like", (req, res) => {
+    if (req.session.user) {
+      const resourceId = req.params.id;
+      const userId = req.session.user.id;
+      // TODO: make sure, id, user_id, number_of_likes, date are not mentioned in body
+      console.log(`resource: ${resourceId}`);
+      const query = {
+        text: `insert into liked (user_id, resource_id) values ($1,$2)
+        RETURNING *`,
+        values: [
+          userId,
+          resourceId
+        ]
+      };
+      db.query(query)
+        .then(result => {
+          res.redirect(`/`);
         })
         .catch(err => console.log(err));
     } else {
