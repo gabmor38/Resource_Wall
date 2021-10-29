@@ -2,28 +2,25 @@ const express = require("express");
 const router = express.Router();
 
 module.exports = (db) => {
-
-
-  router.get('/new', (req, res) => {
+  router.get('/comment', (req, res) => {
     console.log("user is",req.session.user)
     const templateVars = { user: req.session.user };
     if (!req.session.user) {
       res.redirect('/', templateVars);
     } else {
 
-      res.render('new_resource', templateVars);
+      res.render('new_comment', templateVars);
     }
   });
 
-// this route creates a new card//
-  router.post('/new', (req, res) => {
-    const user_Id = req.session.user.id;
-    const { title, url, description, category } = req.body;
 
-    const date = new Date();
+  router.post('/comment', (req, res) => {
+    const user_Id = req.session.user.id;
+    console.log("body" ,req.body);
+
     db.query(
-      `INSERT INTO resources (user_Id, url, title, description, category, date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-      [user_Id, url, title, description, category, date]
+      `INSERT INTO comments (user_Id, resource_id, message) VALUES ($1, $2, $3) RETURNING *`,
+      [user_Id, resource_id, message]
     )
       .then((data) => {
         templateVars={
@@ -31,7 +28,7 @@ module.exports = (db) => {
           user : req.session.user
 
         }
-        res.redirect("/api/resources/");
+        res.redirect("/api/resources/:id");
       })
       .catch((error) => {
         res.status(500).json({ error: error.message });
@@ -41,4 +38,11 @@ module.exports = (db) => {
 
   return router;
 
-};
+
+
+
+
+
+
+
+}
