@@ -39,29 +39,6 @@
               <h1>Get started by liking or adding some resources!</h1>
               <% } else { %>
 
-<<<<<<< HEAD
-            <% for(let resource in resources) { %>
-          <div class="card-deck">
-            <div class="card mb-3">
-              <img src="/images/<%= resources[resource].category%>.jpeg" class="card-img-top" alt="<%= resources[resource].category%>.">
-              <div class="card-body">
-                <h5 class="card-title"><%= resources[resource].title%></h5>
-                <p class="card-text"><%= resources[resource].description%></p>
-                <div class="d-flex flex-wrap justify-content-between align-items-baseline">
-                <i class="far fa-heart"></i>
-                <a href="<%=resources[resource].url%>" class="card-link"><i class="fas fa-link"></i></a>
-                <a href="#" class="btn btn-primary">Comment</a>
-              </div>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-              </div>
-            </div>
-          </div>
-            <% } %>
-          <% } %>
-          <% } else {%>
-            <h1>Get started by creating an account or logging in!</h1>
-            <% } %>
-=======
                 <% for(let resource in resources) { %>
                   <div class="card-deck">
                     <div class="card mb-3">
@@ -77,15 +54,15 @@
                         <div class="d-flex flex-wrap justify-content-between align-items-baseline">
                           <form action="/api/resources/<%= resources[resource].id%>/like" method="POST">
                             <div>
-                              <i class="far fa-heart"></i>
+
+                              <button type="submit" class="btn btn-danger rounded-circle mr-3"><i class="far fa-heart"></i></button>
                               <p class="card-text mt-2"><small class="text-muted">
                                   <%=resources[resource].number_of_likes%> likes
                                 </small></p>
-                              <button type="submit" class="btn btn-primary mr-3"></button>
                             </div>
                           </form>
                           <a href="<%=resources[resource].url%>" class="card-link"><i class="fas fa-link"></i></a>
-                          <a href="#" class="btn btn-primary">Comment</a>
+                          <a href="#" class="btn btn-secondary">Comment</a>
                         </div>
                         <p class="card-text mt-2"><small class="text-muted">Last updated 3 mins ago</small></p>
                       </div>
@@ -96,7 +73,6 @@
                       <% } else {%>
                         <h1>Get started by creating an account or logging in!</h1>
                         <% } %>
->>>>>>> d8c4b26cd275295eab392ff11e67943345f51d6c
         </div>
 </body>
 
