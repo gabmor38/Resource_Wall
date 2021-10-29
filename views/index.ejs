@@ -41,9 +41,12 @@
 
                 <% for(let resource in resources) { %>
                   <div class="card-deck">
+
                     <div class="card mb-3">
-                      <img src="/images/<%= resources[resource].category%>.jpeg" class="card-img-top"
-                        alt="<%= resources[resource].category%>.">
+                      <a href="<%= resources[resource].url%>">
+                        <img src="/images/<%= resources[resource].category%>.jpeg" class="card-img-top"
+                          alt="<%= resources[resource].category%>.">
+                     </a>
                       <div class="card-body">
                         <h5 class="card-title">
                           <%= resources[resource].title%>
