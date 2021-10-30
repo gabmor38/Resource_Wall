@@ -4,31 +4,7 @@ const router = express.Router();
 
 module.exports = (db) => {
 
-  // Get a resource by id. This api might be used for edit resource page.
-  router.get("/:id", (req, res) => {
-    const resourceId = req.params.id;
-    if (req.session.user) {
-      console.log(`resourceId: ${resourceId}`);
-      const query = {
-        text: `SELECT * FROM resources WHERE id = $1`,
-        values: [resourceId]
-      };
-      db.query(query)
-        .then(result => {
-          const resource = result.rows[0];
-          res.json(resource);
-          // TODO: Fix below code for the UI support.
-          // const templateVars = {
-          //   resource: resource
-          // }
-          // res.render("edit_url", templateVars);
-        })
-        .catch(err => console.log(err))
-    } else {
-      // TODO: redirect to the login page, for now send empty response
-      res.json({ 'data': null });
-    }
-  });
+
 
   router.post("/search", (req, res) => {
     console.log("search", req.body.search)
@@ -140,7 +116,6 @@ module.exports = (db) => {
             LEFT JOIN reviews ON resources.id = reviews.resource_id
             left join liked on resources.id = liked.resource_id
             LEFT join comments on resources.id =  comments.resource_id
-            where resources.user_id = $1 OR liked.user_id = $1
             group by reviews.resource_id, liked.resource_id, resources.id, resources.category, resources.title, resources.description, resources.url, comments.resource_id
             order by resources.id;`
       const values = [user.id];
@@ -241,6 +216,49 @@ module.exports = (db) => {
       res.json({ 'data': null });
     }
   });
+
+  router.get("/my_resources", (req,res)=>{
+    console.log("getting my_resources")
+    console.log("userrrr", req.session.user)
+    if (req.session.user) {
+      const user = req.session.user;
+      console.log("user")
+      console.log(`userId: ${user.id}`);
+      const query = `select resources.id, resources.category, resources.title, resources.description, resources.url, (select count(*) from liked where resource_id = resources.id) as number_of_likes,
+      (select count(*) from comments where resource_id = resources.id) AS number_of_comments,
+      ROUND(AVG(reviews.rating), 0) AS rating,
+            case when (select count(*) from liked where user_id = $1 and resource_id = resources.id) > 0 then 'YES' else 'NO' end as liked
+            from resources
+            LEFT JOIN reviews ON resources.id = reviews.resource_id
+            left join liked on resources.id = liked.resource_id
+            LEFT join comments on resources.id =  comments.resource_id
+            where resources.user_id = $1 OR liked.user_id = $1
+            group by reviews.resource_id, liked.resource_id, resources.id, resources.category, resources.title, resources.description, resources.url, comments.resource_id
+            order by resources.id;`
+      const values = [user.id];
+      db.query(query, values)
+        .then(result => {
+          console.log("rows")
+          console.log("rows", result.rows)
+
+          const templateVars = {
+            resources: result.rows,
+            user: user
+          };
+
+          if (!templateVars.resources[0]) {
+            console.log("triggered if")
+          }
+          console.log(templateVars);
+          res.render("my_resources", templateVars);
+        })
+        .catch(err => console.log(err));
+    } else {
+      // TODO: redirect to the login page, for now send empty response
+      res.json({ 'data': null });
+    }
+  });
+
 
   return router;
 };
