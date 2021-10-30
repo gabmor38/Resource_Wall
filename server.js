@@ -45,6 +45,8 @@ const newComment = require("./routes/new_comment");
 const widgetsRoutes = require("./routes/widgets");
 const newResource = require("./routes/new_resource");
 const resourceRoutes = require("./routes/resources")
+const reviewRoutes = require("./routes/reviews")
+
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -53,6 +55,8 @@ app.use('/api/new_comment',newComment(db));
 app.use("/api/widgets", widgetsRoutes(db));
 app.use('/api/new_resource',newResource(db));
 app.use("/api/resources", resourceRoutes(db))
+app.use("/api/reviews", reviewRoutes(db))
+
 // Note: mount other resources here, using the same pattern above
 
 // Home page

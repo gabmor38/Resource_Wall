@@ -97,7 +97,15 @@
                             <p>
                               <%=resources[resource].rating%><i class="fas fa-star text-warning"></i>
                             </p>
-
+                            <form action="/api/reviews/review" method="POST">
+                              <input type="hidden" name="userId" value="<%= user.id%>"/>
+                              <input type="hidden" name="resourceId" value="<%= resources[resource].id%>"/>
+                            <button name="rating" value=1>1</button>
+                            <button name="rating" value=2>2</button>
+                            <button name="rating" value=3>3</button>
+                            <button name="rating" value=4>4</button>
+                            <button name="rating" value=5>5</button>
+                          </form>
 
                         </div>
                         <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
