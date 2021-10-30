@@ -27,7 +27,7 @@ CREATE TABLE reviews (
   resource_id INTEGER REFERENCES resources(id) ON DELETE CASCADE,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   rating SMALLINT NOT NULL DEFAULT 0,
-  date date NOT NULL
+  date date 
 );
 
 CREATE TABLE liked (
