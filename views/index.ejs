@@ -53,9 +53,11 @@
                         <h5 class="card-title">
                           <%= resources[resource].title%>
                         </h5>
+                      <div class="card-body">
                         <p class="card-text">
                           <%= resources[resource].description%>
                         </p>
+                      </div>
                         <div class="d-flex flex-wrap justify-content-between align-items-baseline">
                           <form
                             action="/api/resources/<%= resources[resource].id%>/like/<%= resources[resource].liked%>"
