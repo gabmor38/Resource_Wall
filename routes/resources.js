@@ -138,7 +138,11 @@ module.exports = (db) => {
       LEFT JOIN reviews ON resources.id = reviews.resource_id
       left join liked on resources.id = liked.resource_id
       where resources.user_id = $1 OR liked.user_id = $1
+<<<<<<< HEAD
       group by reviews.resource_id, liked.resource_id, resources.id, resources.category, resources.title, resources.url, resources.description
+=======
+      group by reviews.resource_id, liked.resource_id, resources.id, resources.category, resources.title, resources.description, resources.url
+>>>>>>> 796bcebfa13ab8667c921ca2f52752b265a77bed
       order by resources.id;`
       const values = [user.id];
       db.query(query, values)
