@@ -31,7 +31,7 @@
 <body>
   <%- include('./partials/_header.ejs') %>
     <div class="background">
-<h1>My Resources!</h1>
+      <h1>My Resources!</h1>
 
       <% if(user) {%>
         <div class="container pt-4">
@@ -62,7 +62,8 @@
                             method="POST">
                             <div>
 
-                              <button type="submit" class="btn btn-danger rounded-circle mr-3"><i
+                              <button type="submit"
+                                class="btn btn-<%= resources[resource].liked === 'YES' ? 'danger' : 'light'%> rounded-circle mr-3"><i
                                   class="far fa-heart"></i></button>
                               <p class="card-text mt-2"><small class="text-muted">
                                   <%=resources[resource].number_of_likes%> likes
@@ -75,15 +76,15 @@
                         </div>
                         <p class="card-text mt-2"><small class="text-muted">Last updated 3 mins ago</small></p>
 
-                            <form action="/api/reviews/review" method="POST">
-                              <input type="hidden" name="userId" value="<%= user.id%>"/>
-                              <input type="hidden" name="resourceId" value="<%= resources[resource].id%>"/>
-                            <button name="rating" value=1>1</button>
-                            <button name="rating" value=2>2</button>
-                            <button name="rating" value=3>3</button>
-                            <button name="rating" value=4>4</button>
-                            <button name="rating" value=5>5</button>
-                          </form>
+                        <form action="/api/reviews/review" method="POST">
+                          <input type="hidden" name="userId" value="<%= user.id%>" />
+                          <input type="hidden" name="resourceId" value="<%= resources[resource].id%>" />
+                          <button name="rating" value=1>1</button>
+                          <button name="rating" value=2>2</button>
+                          <button name="rating" value=3>3</button>
+                          <button name="rating" value=4>4</button>
+                          <button name="rating" value=5>5</button>
+                        </form>
 
                       </div>
                     </div>
