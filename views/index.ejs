@@ -62,7 +62,8 @@
                             method="POST">
                             <div>
 
-                              <button type="submit" class="btn btn-danger rounded-circle mr-3"><i
+                              <button type="submit"
+                                class="btn btn-<%= resources[resource].liked === 'YES' ? 'danger' : 'light'%> rounded-circle mr-3"><i
                                   class="far fa-heart"></i></button>
                               <p class="card-text mt-2"><small class="text-muted">
                                   <%=resources[resource].number_of_likes%> likes
