@@ -133,7 +133,7 @@ module.exports = (db) => {
       console.log("user")
       console.log(`userId: ${user.id}`);
       const query = `select resources.id, resources.category, resources.title, resources.url, (select count(*) from liked where resource_id = resources.id) as number_of_likes, ROUND(AVG(reviews.rating), 1) AS rating,
-      case when (select count(*) from liked where user_id = resources.user_id and resource_id = resources.id) > 0 then 'YES' else 'NO' end as liked
+      case when (select count(*) from liked where user_id = $1 and resource_id = resources.id) > 0 then 'YES' else 'NO' end as liked
       from resources
       LEFT JOIN reviews ON resources.id = reviews.resource_id
       left join liked on resources.id = liked.resource_id
