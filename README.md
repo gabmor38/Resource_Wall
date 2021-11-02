@@ -44,8 +44,12 @@ The following steps are only for _one_ of the group members to perform.
 
 ## Screenshots
 
-!["Main Page"]()
-!["User' HomePage"]()
-!["My Resources"]()
-!["Add a Resource"]()
-!["Leave a Comment"]()
+!["Main Page"](https://github.com/gabmor38/Resource_Wall/blob/master/public/images/Screenshots/Main%20Page.png?raw=true)
+
+!["User' HomePage"](https://github.com/gabmor38/Resource_Wall/blob/master/public/images/Screenshots/Users_HP.png?raw=true)
+
+!["My Resources"](https://github.com/gabmor38/Resource_Wall/blob/master/public/images/Screenshots/Users_HP.png?raw=true)
+
+!["Add a Resource"](https://github.com/gabmor38/Resource_Wall/blob/master/public/images/Screenshots/Create_Resource.png?raw=true)
+
+!["Leave a Comment"](https://github.com/gabmor38/Resource_Wall/blob/master/public/images/Screenshots/Comment_page.png?raw=true)
