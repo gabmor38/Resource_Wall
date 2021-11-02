@@ -10,9 +10,9 @@ module.exports = (db) => {
 
     console.log(`${req.body.resourceId}`,`${req.body.userId}`,`${req.body.rating}`)
     const query = {
-      text: `insert into reviews (resource_id, user_id, rating) values ($1,$2,$3)
+      text: `insert into reviews (resource_id, user_id, rating, date) values ($1,$2,$3, $4)
       RETURNING *`,
-      values: [`${req.body.resourceId}`,`${req.body.userId}`,`${req.body.rating}`]
+      values: [`${req.body.resourceId}`,`${req.body.userId}`,`${req.body.rating}`, date]
     };
     return db.query(query)
     .then(result=>{
