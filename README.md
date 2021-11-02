@@ -1,7 +1,6 @@
 LHL Node Skeleton
 ========
 
-## mark
 ## Project Setup
 
 The following steps are only for _one_ of the group members to perform.
@@ -42,3 +41,11 @@ The following steps are only for _one_ of the group members to perform.
 - Node 10.x or above
 - NPM 5.x or above
 - PG 6.x
+
+## Screenshots
+
+!["Main Page"]()
+!["User' HomePage"]()
+!["My Resources"]()
+!["Add a Resource"]()
+!["Leave a Comment"]()
